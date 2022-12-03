@@ -2,3 +2,23 @@ proxies:
 
 #isikan akunmu di sini
 #fill your account in here
+
+#contoh, akun trojan vpn
+#example, trojan vpn account
+
+- name: HOWDY HE-3 TROJAN VPN
+  server: IP only or SNI.COM
+  port: 443
+  type: trojan
+  password: 7xxxxxxx-6xxx-1xxx-9xxx-xxxxxxxxx272
+  skip-cert-verify: true
+  sni: SNI.COM
+  network: ws
+  ws-opts:
+    path: wss://SNI.COM/howdy
+    headers:
+      Host: sg3-trojan.bonds.id
+  udp: true
+
+#port 443 use wss
+#port 80 use ws
