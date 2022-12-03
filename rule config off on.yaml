@@ -1,0 +1,93 @@
+port: 7890
+socks-port: 7891
+redir-port: 7892
+mixed-port: 7893
+tproxy-port: 7895
+ipv6: false
+mode: rule
+log-level: silent
+allow-lan: true
+external-controller: 0.0.0.0:9090
+secret: ""
+bind-address: "*"
+unified-delay: true
+profile:
+  store-selected: true
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: redir-host
+  listen: 0.0.0.0:7874
+  nameserver:
+    - 8.8.8.8
+    - 1.0.0.1
+    - https://dns.google/dns-query
+  fallback:
+    - 1.1.1.1
+    - 8.8.4.4
+    - https://cloudflare-dns.com/dns-query
+    - 112.215.203.254
+  default-nameserver:
+    - 8.8.8.8
+    - 1.1.1.1
+    - 112.215.203.254
+
+proxy-providers:
+ akun vpn kamu:
+    type: file
+    strategy: consistent-hashing
+    url: http://hi.bonds.id/ping
+    path: ./akun vpn kamu.yaml
+
+proxy-groups:
+  - name: VPNMU
+    type: select
+    proxies:
+     - FALLBACK
+     - LOAD-BALANCE
+     - BEST-PING
+     - DIRECT
+    use:
+     - akun vpn kamu
+     
+  - name: LOAD-BALANCE
+    type: load-balance
+    strategy: consistent-hashing
+    url: http://hi.bonds.id/ping
+    interval: 300
+    use:
+     - akun vpn kamu
+     
+  - name: BEST-PING
+    type: url-test
+    url: http://hi.bonds.id/ping
+    interval: 300
+    tolerance: 50
+    use:
+     - akun vpn kamu
+     
+  - name: FALLBACK
+    type: fallback
+    url: http://hi.bonds.id/ping
+    interval: 300
+    use:
+     - akun vpn kamu
+     
+  - name: IKLAN
+    type: select
+    proxies:
+     - REJECT
+     - VPNMU
+      
+rules:
+ - IP-CIDR,198.18.0.1/16,REJECT,no-resolve
+ - RULE-SET,IKLAN,IKLAN
+ - MATCH,VPNMU
+  
+
+rule-providers:
+  IKLAN:
+    type: file
+    behavior: classical
+    path: ./iklan.yaml
+    
