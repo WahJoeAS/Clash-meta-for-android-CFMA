@@ -46,10 +46,12 @@ proxy-groups:
      - FALLBACK
      - LOAD-BALANCE
      - BEST-PING
+     - RELAY
      - DIRECT
+     - REJECT
     use:
      - akun vpn kamu
-     
+
   - name: LOAD-BALANCE
     type: load-balance
     strategy: consistent-hashing
@@ -57,7 +59,7 @@ proxy-groups:
     interval: 300
     use:
      - akun vpn kamu
-     
+
   - name: BEST-PING
     type: url-test
     url: http://hi.bonds.id/ping
@@ -65,29 +67,49 @@ proxy-groups:
     tolerance: 50
     use:
      - akun vpn kamu
-     
+
+  - name: RELAY
+    type: relay
+    url: http://hi.bonds.id/ping
+    interval: 30
+    tolerance: 99
+    use:
+     - akun vpn kamu
+
   - name: FALLBACK
     type: fallback
     url: http://hi.bonds.id/ping
     interval: 300
     use:
      - akun vpn kamu
-     
+
   - name: IKLAN
     type: select
     proxies:
      - REJECT
      - VPNMU
-      
+
+
 rules:
  - IP-CIDR,198.18.0.1/16,REJECT,no-resolve
  - RULE-SET,IKLAN,IKLAN
+ - RULE-SET,tambahan game,VPNMU
+ - RULE-SET,tambahan umum,VPNMU
  - MATCH,VPNMU
-  
+
 
 rule-providers:
   IKLAN:
     type: file
     behavior: classical
     path: ./iklan.yaml
-    
+
+  tambahan game:
+    type: file
+    behavior: classical
+    path: ./tambahan game.yaml
+
+  tambahan umum:
+    type: file
+    behavior: classical
+    path: ./tambahan umum.yaml
