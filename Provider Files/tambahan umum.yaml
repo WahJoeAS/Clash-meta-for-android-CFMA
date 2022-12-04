@@ -1,0 +1,18 @@
+payload:
+
+#WA
+- DOMAIN-SUFFIX,v.whatsapp.com
+- DOMAIN-SUFFIX,whatsapp.com
+- DOMAIN-SUFFIX,api.whatsapp.com
+- DOMAIN-SUFFIX,yowayousef.com
+- DOMAIN-SUFFIX,fmwhatsapp.com
+- DOMAIN-SUFFIX,gbapps.net
+
+#FB
+- DOMAIN-SUFFIX,m.facebook.com
+- DOMAIN-SUFFIX,facebook.com
+- DOMAIN-SUFFIX,fna.fbcdn.net
+- DOMAIN-SUFFIX,facebook.net
+
+#SPEEDTEST
+- DOMAIN-SUFFIX,cbn.speedtestcustom.com
